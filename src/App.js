@@ -7,7 +7,8 @@ import Signup from './components/Signup';
 import Pricing from './components/Pricing';
 import Analytics from './components/Analytics/Analytics';
 import Footer from './components/Footer';
-
+import VerifyEmail
+ from './components/verifyEmail';
 function App() {
   return (
     <div className="App">
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/pricing" element={<Pricing />}/>
         <Route path="/analytics" element={<Analytics />}/>
+        <Route path='/verifyemail' element={<VerifyEmail />}/>
       </Routes>
       <Footer />
     </div>

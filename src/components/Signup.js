@@ -3,27 +3,29 @@ import { Link ,useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { EyeOff } from "lucide-react";
 import { useDispatch,useSelector } from "react-redux";
-import { login } from "../redux/authSlice";
+import { signedUp } from "../redux/authSlice";
+import encryptAES from "../utils/crypto";
 const Signup = () => {
   const dispatch = useDispatch();
   const baseURL = "http://127.0.0.1:8000"
-  const isLoggedIn=useSelector((state)=>state.auth.isLoggedIn);
+  const isSignedUp=useSelector((state)=>state.auth.isSignedUp);
   const navigate=useNavigate();
   const [result,setResult]=useState(null)
   useEffect(()=>{
-    if(isLoggedIn){
-      navigate('/');
+    if(isSignedUp){
+      navigate('/verifymail');
     }
-  },[isLoggedIn,navigate])
+  },[isSignedUp,navigate])
   const handleSignup=async (e)=>{
     e.preventDefault();
     const formData = new FormData(e.target);
     const firstname=formData.get('firstname');
     const lastname=formData.get('lastname');
-    const username=formData.get('username');
-    const email=formData.get('email');
-    const password=formData.get('password');
-    const phone=formData.get('phone');
+    const username=encryptAES(formData.get('username'));
+    const email=encryptAES(formData.get('email'));
+    const password=encryptAES(formData.get('password'));
+    const phone=encryptAES(formData.get('phone'));
+    console.log(firstname,lastname,username,email,password,phone);
     
     try {
       const response=await fetch(`${baseURL}/api/reg`, {
@@ -46,7 +48,7 @@ const Signup = () => {
       const data=await response.json();
       if(response.status===201){
         setResult(data.message);
-        dispatch(login());
+        dispatch(signedUp());
       }
       else{
         setResult(data.error)
