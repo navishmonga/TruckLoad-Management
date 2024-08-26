@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Pricing from './components/Pricing';
 import Analytics from './components/Analytics/Analytics';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/pricing" element={<Pricing />}/>
         <Route path="/analytics" element={<Analytics />}/>
       </Routes>
+      <Footer />
     </div>
   );
 }

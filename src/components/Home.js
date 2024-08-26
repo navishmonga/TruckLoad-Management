@@ -13,7 +13,7 @@ const Home=()=>{
             <h1 className="text-6xl p-1 text-left " >Revolutionize</h1>
             <h1 className="text-7xl p-1 text-left">Your Dispatching</h1>
             <h1 className="text-8xl p-1 text-left">With AI</h1>
-            <p className="text-left text-xl mt-12">Our platform is designed to revolutionize your dispatching <br />and make it more efficient and effective by integrating<br/><h1>Artificial Intelligence</h1></p>
+            <p className="text-left text-xl mt-12">Our platform is designed to revolutionize your dispatching <br />and make it more efficient and effective by integrating<br/><span className="text-2xl">Artificial Intelligence</span></p>
             <button className="flex-1 rounded-full text-black text- font-bold bg-cyan-400 m-10 p-2 px-3 hover:scale-110">Get Started With Us</button>
           </div>
         </div>

@@ -1,18 +1,56 @@
 import React from "react";
 import { KeyRound } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { EyeOff } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/authSlice";
 
 const Login = () => {
-  const [passHidden,setPassHidden]=useState(true);
+  const baseURL = "http://127.0.0.1:8000";
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
+  const isLoggedIn=useSelector((state)=>state.auth.isLoggedIn);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn, navigate]);
+  const handleLogin=async (e)=>{
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const username=formData.get('username');
+    const password=formData.get('password');
+
+    try {
+      const response = await fetch(`${baseURL}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+      console.log(data);
+      //if(response.status === 401 ? setResult("Wrong credentials") : setResult("Success! Logging you in..."));
+      if(response.status===201){
+        setResult("Success! Logging you in...")
+        dispatch(login());
+      };
+      if(data.message)setResult(data.message);
+    } catch (error) {
+      console.log(error);
+    }
+    e.target.reset();
+  }
+
+  const [result,setResult]=useState(null);
+  const [passHidden, setPassHidden] = useState(true);
   return (
     <div className="min-h-screen bg-gray-900 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-          <div>
-            
-          </div>
+          <div></div>
           <div className="mt-12 flex flex-col items-center">
             <h1 className="text-2xl xl:text-3xl font-extrabold">Log In</h1>
             <div className="w-full flex-1 mt-8">
@@ -57,29 +95,48 @@ const Login = () => {
                   Or log in with e-mail
                 </div>
               </div>
-              <div className="mx-auto max-w-xs">
+              <form onSubmit={handleLogin} className="mx-auto max-w-xs">
                 <input
+                  name="username"
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                  type="email"
-                  placeholder="Email"
+                  type="text"
+                  placeholder="Username"
+                  required
                 />
                 <div className="relative">
                   <input
+                    name="password"
                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 pl-10"
                     type={`${passHidden ? "password" : "text"}`}
                     placeholder="Password"
+                    required
                   />
-                  <button onClick={() => setPassHidden(!passHidden)} className="absolute right-3 top-2/3 -translate-y-1/2 cursor-pointer"><EyeOff size={20}  /></button>
+                  <button
+                    type="button"
+                    onClick={() => setPassHidden(!passHidden)}
+                    className="absolute right-3 top-2/3 -translate-y-1/2 cursor-pointer"
+                  >
+                    <EyeOff size={20} />
+                  </button>
                 </div>
-                <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                {/* Login Button */}
+                <button 
+                  type="submit"
+                  className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                >
                   <KeyRound />
                   <span className="ml-3">Log In</span>
                 </button>
-                <div className="flex justify-between">
-                    <Link className="hover:underline" to="/signup">New user?</Link>
-                    <Link className="hover:underline">Forgot Password?</Link>
+                {result && (<div className="text-red-500 font-bold">{result}</div>)}
+                <div className="flex justify-between mt-3">
+                  <Link className="hover:underline" to="/signup">
+                    New user?
+                  </Link>
+                  <Link className="hover:underline" to="/forgot-password">
+                    Forgot Password?
+                  </Link>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
