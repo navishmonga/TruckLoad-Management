@@ -9,6 +9,7 @@ import Analytics from './components/Analytics/Analytics';
 import Footer from './components/Footer';
 import VerifyEmail
  from './components/verifyEmail';
+import Filters from './components/Filters/Filters';
 function App() {
   return (
     <div className="App">
@@ -20,6 +21,7 @@ function App() {
         <Route path="/pricing" element={<Pricing />}/>
         <Route path="/analytics" element={<Analytics />}/>
         <Route path='/verifyemail' element={<VerifyEmail />}/>
+        <Route path='/filters' element={<Filters />} />
       </Routes>
       <Footer />
     </div>
