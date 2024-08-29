@@ -3,8 +3,8 @@ import { Link ,useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { EyeOff } from "lucide-react";
 import { useDispatch,useSelector } from "react-redux";
-import { signedUp } from "../redux/authSlice";
-import encryptAES from "../utils/crypto";
+import { signedUp } from "../../redux/authSlice";
+import encryptAES from "../../utils/crypto";
 const Signup = () => {
   const dispatch = useDispatch();
   const baseURL = "http://127.0.0.1:8000"

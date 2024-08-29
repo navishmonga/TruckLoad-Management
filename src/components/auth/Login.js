@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { EyeOff } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/authSlice";
+import { login } from "../../redux/authSlice";
 
 const Login = () => {
   const baseURL = "http://127.0.0.1:8000";
