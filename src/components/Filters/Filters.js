@@ -1,13 +1,32 @@
 import React, { useState,useRef } from "react";
-import SelectDate from "./SelectDate";
 import DisplayData from "./displayData";
 import { CirclePlus, X } from "lucide-react";
 import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css"
 
 const Filters = () => {
   const [originSuggestions, setOriginSuggestions] = useState([]);
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
-
+  const [dates,setDates]=useState({
+    startDate:new Date(),
+    endDate:new Date()
+  })
+  const handleDateChange=(date,caller)=>{
+    if(caller==="S"){
+      setDates({
+        ...dates,
+        startDate:date
+      })
+    }
+    else{
+      setDates(
+        {
+          ...dates,
+          endDate:date
+        }
+      )
+    }
+  }
   const fetchSuggestions = async (searchText, caller) => {
     try {
       const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${searchText}&filter=countrycode:us&apiKey=893f9d2fbac2447696efa3f7df2f6efa`);
@@ -102,6 +121,50 @@ const Filters = () => {
             color="red"
             onClick={() => setExcludeLoads([])}
           />
+        </div>
+        <div className="flex my-5 items-center justify-center">
+          <DatePicker
+            placeholderText="Select Start Date"
+            selected={dates.startDate}
+            className="p-3 mx-4 ml-10 rounded-3xl border border-black"
+            dateFormat="MM-dd-yyyy"
+            onChange={(date) => handleDateChange(date, "S")}
+          />
+          <DatePicker
+            placeholderText="Select End Date"
+            selected={dates.endDate}
+            className="p-3 mx-4 ml-10 rounded-3xl border border-black"
+            dateFormat="MM-dd-yyyy"
+            onChange={(date) => handleDateChange(date, "E")}
+          />
+        </div>
+        <div className="flex my-5 justify-center items-center">
+          <h1 className="text-xl">OTP Type:- </h1>
+          <div className="flex items-center ml-5">
+            <input
+              type="radio"
+              id="email"
+              name="OTP"
+              value="email"
+              className="mr-2"
+            />
+            <label htmlFor="email">Email</label>
+          </div>
+          <div className="flex items-center ml-5">
+            <input
+              type="radio"
+              id="phone"
+              name="OTP"
+              value="phone"
+              className="mr-2"
+            />
+            <label htmlFor="phone">Phone</label>
+          </div>
+        </div>
+        <div className="flex mx-auto justify-center">
+          <button className="m-3 bg-red-800 text-white px-3 py-2 rounded-3xl text-xl">
+            Start Script
+          </button>
         </div>
       </div>
       <div className="w-full">

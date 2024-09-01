@@ -2,13 +2,12 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Login from './components/auth/Login';
+import Signup from './components/auth/Signup';
 import Pricing from './components/Pricing';
 import Analytics from './components/Analytics/Analytics';
 import Footer from './components/Footer';
-import VerifyEmail
- from './components/verifyEmail';
+import VerifyEmail from './components/auth/verifyEmail';
 import Filters from './components/Filters/Filters';
 function App() {
   return (

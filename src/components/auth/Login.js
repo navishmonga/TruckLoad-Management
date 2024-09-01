@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { EyeOff } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/authSlice";
+import { setUser } from "../../redux/userSlice";
 
 const Login = () => {
   const baseURL = "http://127.0.0.1:8000";
@@ -32,6 +33,7 @@ const Login = () => {
       });
       const data = await response.json();
       console.log(data);
+      dispatch(setUser(data));
       //if(response.status === 401 ? setResult("Wrong credentials") : setResult("Success! Logging you in..."));
       if(response.status===201){
         setResult("Success! Logging you in...")
