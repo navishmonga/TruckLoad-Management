@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link ,useNavigate} from "react-router-dom";
 import { logout } from "../redux/authSlice";
@@ -27,6 +27,7 @@ const  Navbar=() =>{
         <Link to="/"><button className="bg-gray-800 hover:text-amber-500 text-2xl italic rounded-full p-2 px-3">DatApp</button></Link>
         <span className="flex-1 text-4xl p-1">Revolutionize your Dispatching</span>
         <div className="flex">
+        {isLoggedIn && <Link to="/filters"><button className="bg-gray-800 hover:bg-cyan-400 text-lg rounded-full p-2 px-3">Filters</button></Link>}
         <Link to="/analytics"><button className="bg-gray-800 hover:bg-cyan-400 text-lg rounded-full p-2 px-3">Analytics</button></Link>
         <Link to="/pricing"><button className="bg-gray-800 hover:bg-cyan-400 text-lg rounded-full p-2 px-3">Pricing</button></Link>
         {!isLoggedIn && <Link to="/login"><button className="bg-gray-800 hover:bg-cyan-400 text-lg rounded-full p-2 px-3">Login</button></Link>}

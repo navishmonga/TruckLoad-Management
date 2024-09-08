@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-
-const startScript = async () => {
-  const url = "http://127.0.0.1:8000/api/startscript";
+const startScript = async ({username,password,otpType}) => {
+  const url = "http://127.0.0.1:8000/api/startscript?username=" + username + "&password=" + password + "&otp_type=" + otpType;
 
   try {
     const response = await fetch(url, {
@@ -9,9 +7,7 @@ const startScript = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ 
-        
-       }),
+      credentials: "include",
     });
 
     const data = await response.json();
@@ -29,7 +25,7 @@ const startScript = async () => {
   }
 };
 
-const stopScript = async (cookie) => {
+const stopScript = async () => {
   const url = "http://127.0.0.1:8000/api/stop_script";
 
   try {
@@ -55,4 +51,4 @@ const stopScript = async (cookie) => {
   }
 };
 
-export default { startScript, stopScript };
+export { startScript, stopScript };

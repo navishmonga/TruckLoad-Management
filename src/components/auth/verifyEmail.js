@@ -29,7 +29,8 @@ const VerifyEmail = () => {
                 method : 'POST',
                 headers :{
                   'content-type':'application/json'
-                }
+                },
+                credentials: 'include'
               });
               if(newResponse.ok){
                 clearInterval(interval);

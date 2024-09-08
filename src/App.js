@@ -9,6 +9,7 @@ import Analytics from './components/Analytics/Analytics';
 import Footer from './components/Footer';
 import VerifyEmail from './components/auth/verifyEmail';
 import Filters from './components/Filters/Filters';
+import ForgotPassword from './components/auth/forgotPassword';
 function App() {
   return (
     <div className="App">
@@ -21,6 +22,7 @@ function App() {
         <Route path="/analytics" element={<Analytics />}/>
         <Route path='/verifyemail' element={<VerifyEmail />}/>
         <Route path='/filters' element={<Filters />} />
+        <Route path='resetpassword' element={<ForgotPassword />} />
       </Routes>
       <Footer />
     </div>

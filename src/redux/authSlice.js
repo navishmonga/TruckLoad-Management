@@ -5,7 +5,8 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         isLoggedIn: null,
-        isSignedUp: null
+        isSignedUp: null,
+        cookies:{}
     },
     reducers: {
         login: (state) => {
@@ -19,9 +20,12 @@ const authSlice = createSlice({
         },
         notsignedUp: (state)=>{
             state.isSignedUp = false
+        },
+        setCookies:(state,action)=>{
+            state.cookies={...state.cookies,...action.payload}   
         }
     }
 })
 
-export const { login, logout, signedUp, notsignedUp } = authSlice.actions
+export const { login, logout, signedUp, notsignedUp,setCookies } = authSlice.actions
 export default authSlice.reducer

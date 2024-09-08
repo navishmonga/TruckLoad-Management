@@ -6,6 +6,7 @@ import { EyeOff } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/authSlice";
 import { setUser } from "../../redux/userSlice";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const baseURL = "http://127.0.0.1:8000";
@@ -14,6 +15,7 @@ const Login = () => {
   const isLoggedIn=useSelector((state)=>state.auth.isLoggedIn);
   useEffect(() => {
     if (isLoggedIn) {
+      console.log(Cookies.get('csrftoken'));
       navigate('/');
     }
   }, [isLoggedIn, navigate]);
@@ -29,6 +31,7 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({ username, password }),
       });
       const data = await response.json();
@@ -36,7 +39,7 @@ const Login = () => {
       dispatch(setUser(data));
       //if(response.status === 401 ? setResult("Wrong credentials") : setResult("Success! Logging you in..."));
       if(response.status===201){
-        setResult("Success! Logging you in...")
+        setResult("Success! Logging you in...");
         dispatch(login());
       };
       if(data.message)setResult(data.message);
@@ -104,6 +107,7 @@ const Login = () => {
                   type="text"
                   placeholder="Username"
                   required
+                  autoComplete="username"
                 />
                 <div className="relative">
                   <input
@@ -134,7 +138,7 @@ const Login = () => {
                   <Link className="hover:underline" to="/signup">
                     New user?
                   </Link>
-                  <Link className="hover:underline" to="/forgot-password">
+                  <Link className="hover:underline" to="/resetpassword">
                     Forgot Password?
                   </Link>
                 </div>
