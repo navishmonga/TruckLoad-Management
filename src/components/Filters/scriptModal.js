@@ -1,30 +1,13 @@
 import React, { useState } from "react";
 import {startScript, stopScript} from "./scriptControllers"
 const ScriptModal = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [otpType, setOtpType] = useState("phone");
   const [showModal, setShowModal] = useState(false);
   const [buttonText,setButtonText]=useState("Start Script")
-
-  const handleLoginChange = (e) => {
-    setLogin(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleOtpTypeChange = (e) => {
-    setOtpType(e.target.value);
-  };
 
 
   const handleStartScript = () => {
     // TODO: implement start script logic
-    startScript({username: login, password: password, otpType: otpType});
-    setLogin("");
-    setPassword("");
+    // startScript({username: login, password: password, otpType: otpType});
     console.log("Script Start Request");
     setButtonText("Stop Script");
   };
@@ -88,53 +71,12 @@ const ScriptModal = () => {
                       htmlFor="login"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
-                      DAT-One Login
+                      Are you sure you want to start script?
                     </label>
-                    <input
-                      type="text"
-                      name="login"
-                      id="login"
-                      value={login}
-                      onChange={handleLoginChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      required
-                    />
+                    
                   </div>
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="password"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                    >
-                      DAT-OnePassword
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      value={password}
-                      onChange={handlePasswordChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="otp-type"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                    >
-                      OTP Type
-                    </label>
-                    <select
-                      id="otp-type"
-                      value={otpType}
-                      onChange={handleOtpTypeChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      required
-                    >
-                      <option value="phone">Phone</option>
-                      <option value="email">Email</option>
-                    </select>
-                  </div>
+                  
+                  
                   {/* <div className="space-y-1">
                     <label
                       htmlFor="otp"

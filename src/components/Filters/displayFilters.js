@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const TableComponent = ({filterToggler,setFilterToggler}) => {
   // Sample data for the table
@@ -16,13 +17,16 @@ const TableComponent = ({filterToggler,setFilterToggler}) => {
         },
         credentials: "include",
       })
+      const data = await response.json();
       if(response.ok){
+        toast("Filter deleted successfully");
         setFilterToggler(!filterToggler);
         const data= await response.json();
         console.log(data.message);
       }
+      else toast(data.message || data.error);
     } catch (error) {
-      console.log(error);
+      toast(error.message);
     }
   };
 
@@ -37,20 +41,20 @@ const TableComponent = ({filterToggler,setFilterToggler}) => {
         },
         credentials: "include",
       });
+      const data = await response.json();
 
       if (!response.ok) {
-        console.error("Failed to fetch filters:", response.statusText);
+        toast(data.message || data.error);
         return;
       }
       else{
-        console.log("filters fetched successfully");
+        toast("filters fetched successfully");
       }
 
-      const data = await response.json();
       console.log(data);
       setRows(data.Filters ? data.Filters : []);
     } catch (error) {
-      console.error("Error fetching filters:", error);
+      toast("Error fetching filters:", error.message);
     }
   };
 

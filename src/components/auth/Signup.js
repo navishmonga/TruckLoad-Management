@@ -5,15 +5,17 @@ import { EyeOff } from "lucide-react";
 import { useDispatch,useSelector } from "react-redux";
 import { signedUp } from "../../redux/authSlice";
 import encryptAES from "../../utils/crypto";
+import { toast } from "react-toastify";
+import { isEmail, isMobilePhone, isStrongPassword } from "validator";
+
 const Signup = () => {
   const dispatch = useDispatch();
   const baseURL = "http://127.0.0.1:8000"
   const isSignedUp=useSelector((state)=>state.auth.isSignedUp);
   const navigate=useNavigate();
-  const [result,setResult]=useState(null)
   useEffect(()=>{
     if(isSignedUp){
-      navigate('/verifymail');
+      navigate('/verifyemail');
     }
   },[isSignedUp,navigate])
   const handleSignup=async (e)=>{
@@ -22,10 +24,25 @@ const Signup = () => {
     const firstname=formData.get('firstname');
     const lastname=formData.get('lastname');
     const username=encryptAES(formData.get('username'));
+
     const email=encryptAES(formData.get('email'));
+    if(!isEmail(email))return toast('Invalid email');
+
+    const pass=formData.get('password');
+    if (!isStrongPassword(pass, {
+      minLength: 8,
+      minNumbers: 1,
+      minUppercase: 1,
+      minLowercase: 1,
+      minSymbols: 1,
+    })) {
+      return toast('Password must be at least 8 characters long and include a mix of uppercase letters, lowercase letters, numbers, and symbols.')
+    }
     const password=encryptAES(formData.get('password'));
+
     const phone=encryptAES(formData.get('phone'));
-    console.log(firstname,lastname,username,email,password,phone);
+    if(!isMobilePhone(phone))return toast('Invalid phone number');
+    
     
     try {
       const response=await fetch(`${baseURL}/api/reg`, {
@@ -47,16 +64,10 @@ const Signup = () => {
       }),
       })
       const data=await response.json();
-      if(response.status===201){
-        setResult(data.message);
-        dispatch(signedUp());
-      }
-      else{
-        setResult(data.error)
-      }
-
+      toast(data.message || data.error);
+      if(response.ok)dispatch(signedUp());
     } catch (error) {
-      console.log(error);
+      toast(error.message);
     }
   }
 
@@ -140,7 +151,6 @@ const Signup = () => {
                   </svg>
                   <span className="ml-3">Signup</span>
                 </button>
-                {result && (<div className="text-red-500 font-bold">{result}</div>)}
                 <div className="mt-3">
                   <Link to="/login" className="text-indigo-500 hover:underline">
                     Already have an account?

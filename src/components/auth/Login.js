@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/authSlice";
 import { setUser } from "../../redux/userSlice";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const baseURL = "http://127.0.0.1:8000";
@@ -35,21 +36,18 @@ const Login = () => {
         body: JSON.stringify({ username, password }),
       });
       const data = await response.json();
-      console.log(data);
       dispatch(setUser(data));
       //if(response.status === 401 ? setResult("Wrong credentials") : setResult("Success! Logging you in..."));
-      if(response.status===201){
-        setResult("Success! Logging you in...");
+      if(response.ok){
+        toast("Login successful");
         dispatch(login());
-      };
-      if(data.message)setResult(data.message);
+      }
+      else toast(data.message || data.error);
     } catch (error) {
-      console.log(error);
+      toast(error.message);
     }
     e.target.reset();
-  }
-
-  const [result,setResult]=useState(null);
+  };
   const [passHidden, setPassHidden] = useState(true);
   return (
     <div className="min-h-screen bg-gray-900 text-gray-900 flex justify-center">
@@ -133,7 +131,6 @@ const Login = () => {
                   <KeyRound />
                   <span className="ml-3">Log In</span>
                 </button>
-                {result && (<div className="text-red-500 font-bold">{result}</div>)}
                 <div className="flex justify-between mt-3">
                   <Link className="hover:underline" to="/signup">
                     New user?

@@ -1,7 +1,7 @@
-import React,{useState} from "react";
+import React from "react";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
-    const [result,setResult]=useState(null);
 
     const resetPassword = async (e) => {
       e.preventDefault();
@@ -15,16 +15,16 @@ const ForgotPassword = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            // credentials: "include",
+            credentials: "include",
             body: JSON.stringify({ email }),
           }
         );
         const data = await response.json();
         if (response.ok) {
-          setResult(data.message);
-        } else setResult(data.error);
+          toast(data.message);
+        } else toast(data.message || data.error);
       } catch (error) {
-        console.log(error);
+        toast(error.message);
       }
     };
     return (
@@ -50,9 +50,6 @@ const ForgotPassword = () => {
                 >
                 <span className="ml-3">Reset Password</span>
                 </button>
-                {result && (
-                  <div className="text-red-500 font-bold">{result}</div>
-                )}
               </form>
             </div>
           </div>

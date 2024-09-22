@@ -3,13 +3,13 @@ import { useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { Link ,useNavigate} from "react-router-dom";
 import { setUser } from "../../redux/userSlice";
+import { toast } from "react-toastify";
 
 const VerifyEmail = () => {
     const isEmailVerified=useSelector((state)=>state.user?.email_verified === 'Y' ? true : false);
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const [email,setEmail]=useState('');
-    const [msg,setMsg]=useState('');
     const handleVerification=async ()=>{
         try {
           const response = await fetch('http://127.0.0.1:8000/api/email_verify',{
@@ -21,9 +21,9 @@ const VerifyEmail = () => {
               email
             })
           })
+          const data=await response.json();
           if(response.ok){
-            const data=await response.json();
-            setMsg(data.message);
+            toast(data.message);
             const interval = setInterval(()=>{
               const newResponse = fetch('http://127.0.0.1:8000/api/email_verification_confirm',{
                 method : 'POST',
@@ -34,14 +34,15 @@ const VerifyEmail = () => {
               });
               if(newResponse.ok){
                 clearInterval(interval);
-                setMsg('Email Verified Successfully');
+                toast('Email Verified Successfully');
                 dispatch(setUser({email_verified:"Y"}));
                 navigate('/');
               }
             },2000);
           }
+          else toast(data.message || data.error);
         } catch (error) {
-          console.log(error);
+          toast(error.message);
         }
     }
   return !isEmailVerified? (
@@ -58,7 +59,6 @@ const VerifyEmail = () => {
         <button className="rounded-lg bg-indigo-500 text-white px-6 py-2" onClick={handleVerification}>
           Verify Email
         </button>
-        <span className="text-red-500">{msg}</span>
       </div>
     </div>
   ): (

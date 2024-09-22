@@ -4,6 +4,7 @@ import { CirclePlus, X } from "lucide-react";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css"
 import ScriptModal from "./scriptModal";
+import { toast } from "react-toastify";
 // {'origin': _origin.text,
 //   'destination': _destination.text,
 //   'dh-o': _dh_o.text,
@@ -141,7 +142,9 @@ const Filters = () => {
         credentials: 'include',
         body:JSON.stringify(filter)
       })
+      const data=await response.json();
       if (response.ok) {
+        toast(data.message || data.error)
         setFilter({
           origin: "",
           destination: "",
@@ -157,12 +160,11 @@ const Filters = () => {
         setFilterToggler(!filterToggler);
       }
       else{
-        const data = await response.json();
-        setError(data.message);
+        toast(data.message || data.error);
       }
     }
     catch(error){
-      console.log(error);
+      toast(error.message);
     }
   }
     const handleExcludeLoads=()=>{
@@ -176,15 +178,15 @@ const Filters = () => {
     const [excludeLoads,setExcludeLoads]=useState([]);
     const inputRef = useRef(null);
   return (
-    <div className="bg-gray-900 flex-col justify-center items-center p-6">
-      <div className="bg-white text-black flex-col justify-center items-center w-full p-8 rounded-3xl">
-        <h1 className="font-semibold text-5xl flex-1 text-left mb-5">
+    <div className="bg-gray-900 flex-col justify-center items-center p-6 transition-all duration-300 ease-in-out">
+      <div className="bg-gray-200 text-black flex-col justify-center items-center w-full p-8 rounded-3xl shadow-lg transition-all duration-300 ease-in-out">
+        <h1 className="font-semibold text-5xl flex-1 text-left mb-5 transition-all duration-300 ease-in-out">
           Create Filters
         </h1>
-        <div className="flex mt-12 mb-5">
+        <div className="flex mt-12 mb-5 transition-all duration-300 ease-in-out">
           <input
             placeholder="Origin"
-            className="p-3 flex-1 mx-4 my-5 rounded-3xl border border-black"
+            className="p-3 flex-1 mx-4 my-5 rounded-3xl border border-black transition-all duration-300 ease-in-out"
             list="originSuggestions"
             value={filter.origin}
             onChange={(e) => {
@@ -203,7 +205,7 @@ const Filters = () => {
           </datalist>
           <input
             placeholder="Destination"
-            className="p-3 flex-1 mx-4 rounded-3xl my-5 border border-black"
+            className="p-3 flex-1 mx-4 rounded-3xl my-5 border border-black transition-all duration-300 ease-in-out"
             list="destinationSuggestions"
             value={filter.destination}
             onChange={(e) => {
@@ -219,10 +221,10 @@ const Filters = () => {
             ))}
           </datalist>
         </div>
-        <div className="flex my-5">
+        <div className="flex my-5 transition-all duration-300 ease-in-out">
           <input
             placeholder="Minimum Rate Per Mile"
-            className="p-3 w-2/5 mx-4 rounded-3xl border border-black"
+            className="p-3 w-2/5 mx-4 rounded-3xl border border-black transition-all duration-300 ease-in-out"
             value={filter.minimumRatePerMile}
             onChange={(e) => {
               setFilter({
@@ -233,7 +235,7 @@ const Filters = () => {
           ></input>
           <input
             placeholder="Minimum Credit Score"
-            className="p-3 w-1/5 mx-4 ml-20 rounded-3xl border border-black"
+            className="p-3 w-1/5 mx-4 ml-20 rounded-3xl border border-black transition-all duration-300 ease-in-out"
             value={filter.min_credit}
             onChange={(e) => {
               setFilter({
@@ -244,7 +246,7 @@ const Filters = () => {
           ></input>
           <input
             placeholder="Minimum Stars"
-            className="p-3 w-1/5 mx-4 rounded-3xl border border-black"
+            className="p-3 w-1/5 mx-4 rounded-3xl border border-black transition-all duration-300 ease-in-out"
             value={filter.starts}
             onChange={(e) => {
               setFilter({
@@ -254,59 +256,59 @@ const Filters = () => {
             }}
           ></input>
         </div>
-        <div className="flex my-5 items-center">
+        <div className="flex my-5 items-center transition-all duration-300 ease-in-out">
           <input
             placeholder="Exclude Loads - MCM Number"
-            className="p-3 w-2/5 mx-4 rounded-3xl border border-black"
+            className="p-3 w-2/5 mx-4 rounded-3xl border border-black transition-all duration-300 ease-in-out"
             ref={inputRef}
           ></input>
           <CirclePlus
             onClick={handleExcludeLoads}
-            className=" mr-20 cursor-pointer"
+            className=" mr-20 cursor-pointer transition-all duration-300 ease-in-out"
             size={32}
             color="green"
           />
-          <h1 className="text-xl">Excluded Loads :- </h1>
+          <h1 className="text-xl transition-all duration-300 ease-in-out">Excluded Loads :- </h1>
           {excludeLoads.map((num) => (
-            <h1 key={num} className="text-xl m-1">
+            <h1 key={num} className="text-xl m-1 transition-all duration-300 ease-in-out">
               {num},
             </h1>
           ))}
           <X
-            className="cursor-pointer"
+            className="cursor-pointer transition-all duration-300 ease-in-out"
             color="red"
             onClick={() => setExcludeLoads([])}
           />
         </div>
-        <div className="flex my-5 items-center justify-center">
+        <div className="flex my-5 items-center justify-center transition-all duration-300 ease-in-out">
           <DatePicker
             placeholderText="Select Start Date"
             selected={filter.start_date}
-            className="p-3 mx-4 ml-10 rounded-3xl border border-black"
+            className="p-3 mx-4 ml-10 rounded-3xl border border-black transition-all duration-300 ease-in-out"
             dateFormat="MM-dd-yyyy"
             onChange={(date) => handleDateChange(date, "S")}
           />
           <DatePicker
             placeholderText="Select End Date"
             selected={filter.end_date}
-            className="p-3 mx-4 ml-10 rounded-3xl border border-black"
+            className="p-3 mx-4 ml-10 rounded-3xl border border-black transition-all duration-300 ease-in-out"
             dateFormat="MM-dd-yyyy"
             onChange={(date) => handleDateChange(date, "E")}
           />
           <input 
-          className="p-3 mx-4 ml-10 rounded-3xl border border-black"
+          className="p-3 mx-4 ml-10 rounded-3xl border border-black transition-all duration-300 ease-in-out"
           placeholder="Dh-O"
           onChange={(e) => setFilter({...filter, dh_o: e.target.value})}
           ></input>
           <input 
-          className="p-3 mx-4 ml-10 rounded-3xl border border-black"
+          className="p-3 mx-4 ml-10 rounded-3xl border border-black transition-all duration-300 ease-in-out"
           placeholder="Dh-B"
           onChange={(e) => setFilter({...filter, dh_b: e.target.value})}
           ></input>
         </div>
-        {/* <div className="flex my-5 justify-center items-center">
+        {/* <div className="flex my-5 justify-center items-center transition-all duration-300 ease-in-out">
           <h1 className="text-xl">OTP Type:- </h1>
-          <div className="flex items-center ml-5">
+          <div className="flex items-center ml-5 transition-all duration-300 ease-in-out">
             <input
               type="radio"
               id="email"
@@ -316,7 +318,7 @@ const Filters = () => {
             />
             <label htmlFor="email">Email</label>
           </div>
-          <div className="flex items-center ml-5">
+          <div className="flex items-center ml-5 transition-all duration-300 ease-in-out">
             <input
               type="radio"
               id="phone"
@@ -327,7 +329,7 @@ const Filters = () => {
             <label htmlFor="phone">Phone</label>
           </div>
         </div> */}
-        <div className="flex my-5 justify-center items-center">
+        <div className="flex my-5 justify-center items-center transition-all duration-300 ease-in-out">
           <label className="mr-5 text-xl">Select Equipment:- </label>
           <select 
           onChange={(e) => {
@@ -335,7 +337,7 @@ const Filters = () => {
             newFilter.equipments = [...newFilter.equipments, e.target.value];
             setFilter(newFilter);
           }}
-          className="border"
+          className="border transition-all duration-300 ease-in-out"
           >
             {items.map((equipment,index) => (
               <option key={index}>{equipment}</option>
@@ -343,16 +345,16 @@ const Filters = () => {
           </select>
           <label className="mx-5 text-xl">Equipments:-</label>
           {filter?.equipments?.map((equipment,index) => (
-            <h1 key={index} className="text-xl m-1">{equipment}</h1>
+            <h1 key={index} className="text-xl m-1 transition-all duration-300 ease-in-out">{equipment}</h1>
           ))}
         </div>
-        <button onClick={handleAddFilter} className="text-white rounded-full m-5 text-xl px-4 py-2 bg-blue-600 ">Add Filter</button>
-        <h1 className="text-xl text-red-600">{err}</h1>
-        <div className="flex justify-center items-center">
+        <button onClick={handleAddFilter} className="text-white rounded-full m-5 text-xl px-4 py-2 bg-blue-600 transition-all duration-300 ease-in-out">Add Filter</button>
+        <h1 className="text-xl text-red-600 transition-all duration-300 ease-in-out">{err}</h1>
+        <div className="flex justify-center items-center transition-all duration-300 ease-in-out">
         <ScriptModal />
         </div>
       </div>
-      <div className="mx-auto w-1/5 mt-20 text-3xl rounded-2xl bg-indigo-700">Added Filters</div>
+      <div className="text-white text-5xl ml- text-left m-3 mt-12">Added Filters</div>
       <div className="w-full">
         <TableComponent filterToggler={filterToggler} setFilterToggler={setFilterToggler} />
       </div>
