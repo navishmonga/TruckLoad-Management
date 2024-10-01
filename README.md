@@ -1,10 +1,33 @@
-# Getting Started with Create React App
+# Getting Started with DatWebApp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The main aim of this project is to act as service on top of website called datone.com
+The main aim of datone is truck load management in which a user provides some filters and the loads according to that will be displayed.
+What we are doing is that we are scraping the data from datone website and sending it to the user's email.
+Our next target is to intergrate a admin frontend different from user frontend whose main aim will be :
+1. Collect data from backend and admin will correct the errors and send the results to the user through backend
+2. The user will approve the results from user frontend and send that to admin frontend through backend
+3. With this we would be removing the email send feature
 
-## Available Scripts
+![alt text](<WhatsApp Image 2024-09-16 at 13.04.38_21d411b9.jpg>)
 
-In the project directory, you can run:
+## Tech Stack
+
+Frontend: React,Redux,TailwindCSS 
+
+Backend: python,django
+
+Database: SQLite
+
+### Folder Structure for frontend
+
+components: Filters-(Filteradd form and displaying the filters data after fetching from backend)
+            Home-(Landing page for user)
+            Login and Signup-(Login and signup page for user)
+            Navbar and Footer-(global components)
+            Results-(Displaying the unapproved results after fetching from backend)
+
+            redux-authSlice-storing the user authentication state (Login,Logout,signedUp,notsignedUp)
+            redux-userSlice-storing the user data (name,email,phone,role)
 
 ### `npm start`
 
